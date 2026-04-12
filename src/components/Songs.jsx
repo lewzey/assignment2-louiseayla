@@ -1,22 +1,62 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Toast from 'react-bootstrap/Toast';
 import supabase from '../lib/supabase';
 import SongList from './SongList.jsx';
 
 function Songs(props) {
 
     const [titleFilter, setTitleFilter] = useState("");
-    const [yearFilter, setYearFilter] = useState("");
-    const [artistFilter, setArtistFilter] = useState("");
-    const [genreFilter, setGenreFilter] = useState("");
+    const [yearFilter, setYearFilter] = useState([]);
+    const [artistFilter, setArtistFilter] = useState([]);
+    const [genreFilter, setGenreFilter] = useState([]);
+
+    const [yearOpen, setYearOpen] = useState(false);
+    const [artistOpen, setArtistOpen] = useState(false);
+    const [genreOpen, setGenreOpen] = useState(false);
 
     const [sortBy, setSortBy] = useState("title");
     const [songs, setSongs] = useState([]);
+    const [isFiltering, setIsFiltering] = useState(false);
 
-    const playlists = props.playlists;
-    const setPlaylists = props.setPlaylists;
     const [selectedPlaylist, setSelectedPlaylist] = useState("");
+    const [toastMessage, setToastMessage] = useState("");
+    const [toastVariant, setToastVariant] = useState('success');
+    const [showToast, setShowToast] = useState(false);
+
+    const handleAddSong = (song) => {
+        if (selectedPlaylist === "") {
+            return;
+        }
+
+        const playlistIndex = parseInt(selectedPlaylist, 10);
+        const playlist = props.playlists[playlistIndex];
+        if (!playlist) {
+            return;
+        }
+
+        const alreadyExists = playlist.songs.some((item) => item.id === song.id);
+        if (alreadyExists) {
+            setToastVariant('danger');
+            setToastMessage('This song is already in your playlist!');
+            setShowToast(true);
+            return;
+        }
+
+        const playlistName = playlist.name || 'playlist';
+        const updatedPlaylists = [...props.playlists];
+        updatedPlaylists[playlistIndex] = {
+            ...updatedPlaylists[playlistIndex],
+            songs: [...updatedPlaylists[playlistIndex].songs, song],
+        };
+
+        props.setPlaylists(updatedPlaylists);
+        setToastVariant('success');
+        setToastMessage(`Added "${song.title}" to ${playlistName}`);
+        setShowToast(true);
+    };
+
     /*
     // test songs
     const songs = [
@@ -27,6 +67,10 @@ function Songs(props) {
     */
 
     useEffect(() => {
+        if (typeof props.setIsLoading === 'function') {
+            props.setIsLoading();
+        }
+
         async function getSongs() {
             const { data, error } = await supabase
                 .from('songs')
@@ -79,17 +123,25 @@ function Songs(props) {
 
                 setSongs(mappedSongs);
             }
+
+            if (typeof props.setIsLoading === 'function') {
+                props.setIsLoading(false);
+            }
         }
 
         getSongs();
-    }, []);
+    }, [props.setIsLoading]);
+
+    const yearOptions = Array.from(new Set(songs.map((song) => song.year))).sort((a, b) => a - b);
+    const artistOptions = Array.from(new Set(songs.map((song) => song.artist))).sort();
+    const genreOptions = Array.from(new Set(songs.map((song) => song.genre))).sort();
 
     // filtered songs logic
     const filteredSongs = songs.filter((song) =>
-        song.title.toLowerCase().includes(titleFilter.toLowerCase()) && 
-        song.year.toString().includes(yearFilter) &&
-        song.artist.toLowerCase().includes(artistFilter.toLowerCase()) &&
-        song.genre.toLowerCase().includes(genreFilter.toLowerCase())
+        song.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+        (yearFilter.length === 0 || yearFilter.includes(song.year)) &&
+        (artistFilter.length === 0 || artistFilter.includes(song.artist)) &&
+        (genreFilter.length === 0 || genreFilter.includes(song.genre))
     );
 
     // sorting logic
@@ -117,9 +169,9 @@ function Songs(props) {
     results = (
         <SongList
             songs={sortedSongs}
-            playlists={playlists}
-            setPlaylists={setPlaylists}
+            playlists={props.playlists}
             selectedPlaylist={selectedPlaylist}
+            onAddSong={handleAddSong}
         />
     );
 
@@ -130,81 +182,250 @@ function Songs(props) {
         activeFilters.push("Title: " + titleFilter);
     }
 
-    if (yearFilter !== "") {
-        activeFilters.push("Year: " + yearFilter);
-    }
+    yearFilter.forEach((year) => {
+        activeFilters.push("Year: " + year);
+    });
 
-    if (artistFilter !== "") {
-        activeFilters.push("Artist: " + artistFilter);
-    }
+    artistFilter.forEach((artist) => {
+        activeFilters.push("Artist: " + artist);
+    });
 
-    if (genreFilter !== "") {
-        activeFilters.push("Genre: " + genreFilter);
-    }
+    genreFilter.forEach((genre) => {
+        activeFilters.push("Genre: " + genre);
+    });
+
+    const removeActiveFilter = (filter) => {
+        if (filter.startsWith("Title: ")) {
+            setTitleFilter("");
+            return;
+        }
+
+        if (filter.startsWith("Year: ")) {
+            const yearValue = parseInt(filter.replace("Year: ", ""), 10);
+            setYearFilter((prev) => prev.filter((item) => item !== yearValue));
+            return;
+        }
+
+        if (filter.startsWith("Artist: ")) {
+            const artistValue = filter.replace("Artist: ", "");
+            setArtistFilter((prev) => prev.filter((item) => item !== artistValue));
+            return;
+        }
+
+        if (filter.startsWith("Genre: ")) {
+            const genreValue = filter.replace("Genre: ", "");
+            setGenreFilter((prev) => prev.filter((item) => item !== genreValue));
+            return;
+        }
+    };
 
     // display for filters that are active
     let activeFiltersDisplay;
 
     if (activeFilters.length === 0) {
-        activeFiltersDisplay = <p>No active filters.</p>;
+        activeFiltersDisplay = <p className="text-muted mb-0">No active filters.</p>;
     } else {
-        activeFiltersDisplay = activeFilters.map((filter, index) => (
-            <p key={index}>{filter}</p>
-        ));
+        activeFiltersDisplay = (
+            <div className="active-filters">
+                {activeFilters.map((filter, index) => (
+                    <button key={index} type="button" className="filter-chip filter-chip-button" onClick={() => removeActiveFilter(filter)}>
+                        {filter}
+                    </button>
+                ))}
+            </div>
+        );
     }
+
+    useEffect(() => {
+        if (!isFiltering) {
+            return;
+        }
+
+        const timer = window.setTimeout(() => {
+            setIsFiltering(false);
+        }, 120);
+
+        return () => window.clearTimeout(timer);
+    }, [titleFilter, yearFilter, artistFilter, genreFilter, sortBy, isFiltering]);
 
     return (
         <main>
-            <h1>Songs</h1>
+            <div className="songs-header mb-4 text-center">
+                <h1>Songs</h1>
+                <p className="text-muted">Search by title, year, artist, or genre, then add songs directly to your playlist.</p>
+            </div>
 
-            <section>
-                <h2>Filters</h2>
-                <input type="text" placeholder="Search Title" value={titleFilter} onChange={(e) => setTitleFilter(e.target.value)}/>
-                <input type="text" placeholder="Search Year" value={yearFilter} onChange={(e) => setYearFilter(e.target.value)}/>
-                <input type="text" placeholder="Search Artist" value={artistFilter} onChange={(e) => setArtistFilter(e.target.value)}/>
-                <input type="text" placeholder="Search Genre" value={genreFilter} onChange={(e) => setGenreFilter(e.target.value)}/>
+            <section className="songs-layout mb-4 d-flex flex-column flex-lg-row gap-4">
+                <aside className="songs-sidebar flex-shrink-0">
+                                        <div className="songs-panel p-4 rounded-4 shadow-sm bg-lilac">
+                        <div className="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <h2 className="mb-1">Choose playlist</h2>
+                                <p className="text-muted mb-0">Select where new songs go.</p>
+                            </div>
+                        </div>
+                        <select className="form-select" value={selectedPlaylist} onChange={(e) => setSelectedPlaylist(e.target.value)}>
+                            <option value="">( No playlist selected )</option>
+                            {props.playlists.map((playlist, index) => (
+                                <option key={index} value={index}>
+                                    {playlist.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="songs-panel mb-4 p-4 rounded-4 shadow-sm bg-white">
+                        <div className="songs-filters">
+                            <div className="section-heading mb-3">
+                                <h2>Filters</h2>
+                            </div>
+                            <div className="songs-filter-grid">
+                                <div className="songs-filter-row">
+                                    <label className="form-label">Title</label>
+                                    <input type="text" className="form-control song-filter-input" placeholder="Search title" value={titleFilter} onChange={(e) => { setTitleFilter(e.target.value); setIsFiltering(true); }} />
+                                </div>
+                                <div className="songs-filter-row">
+                                    <label className="form-label">Year</label>
+                                    <div className="dropdown-checkbox">
+                                        <button type="button" className="btn btn-outline-secondary dropdown-toggle text-start" onClick={() => setYearOpen(!yearOpen)}>
+                                            {yearFilter.length > 0 ? `Year (${yearFilter.length})` : 'Select years'}
+                                        </button>
+                                        {yearOpen && (
+                                            <div className="dropdown-menu show">
+                                                {yearOptions.map((year) => (
+                                                    <label key={year} className="dropdown-item checkbox-item">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={yearFilter.includes(year)}
+                                                            onChange={() => {
+                                                                const next = yearFilter.includes(year)
+                                                                    ? yearFilter.filter((item) => item !== year)
+                                                                    : [...yearFilter, year];
+                                                                setYearFilter(next);
+                                                                setIsFiltering(true);
+                                                            }}
+                                                        />
+                                                        <span>{year}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="songs-filter-row">
+                                    <label className="form-label">Artist</label>
+                                    <div className="dropdown-checkbox">
+                                        <button type="button" className="btn btn-outline-secondary dropdown-toggle text-start" onClick={() => setArtistOpen(!artistOpen)}>
+                                            {artistFilter.length > 0 ? `Artist (${artistFilter.length})` : 'Select artists'}
+                                        </button>
+                                        {artistOpen && (
+                                            <div className="dropdown-menu show">
+                                                {artistOptions.map((artist) => (
+                                                    <label key={artist} className="dropdown-item checkbox-item">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={artistFilter.includes(artist)}
+                                                            onChange={() => {
+                                                                const next = artistFilter.includes(artist)
+                                                                    ? artistFilter.filter((item) => item !== artist)
+                                                                    : [...artistFilter, artist];
+                                                                setArtistFilter(next);
+                                                                setIsFiltering(true);
+                                                            }}
+                                                        />
+                                                        <span>{artist}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="songs-filter-row">
+                                    <label className="form-label">Genre</label>
+                                    <div className="dropdown-checkbox">
+                                        <button type="button" className="btn btn-outline-secondary dropdown-toggle text-start" onClick={() => setGenreOpen(!genreOpen)}>
+                                            {genreFilter.length > 0 ? `Genre (${genreFilter.length})` : 'Select genres'}
+                                        </button>
+                                        {genreOpen && (
+                                            <div className="dropdown-menu show">
+                                                {genreOptions.map((genre) => (
+                                                    <label key={genre} className="dropdown-item checkbox-item">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={genreFilter.includes(genre)}
+                                                            onChange={() => {
+                                                                const next = genreFilter.includes(genre)
+                                                                    ? genreFilter.filter((item) => item !== genre)
+                                                                    : [...genreFilter, genre];
+                                                                setGenreFilter(next);
+                                                                setIsFiltering(true);
+                                                            }}
+                                                        />
+                                                        <span>{genre}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
 
-                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                    <option value="title">Title</option>
-                    <option value="year">Year</option>
-                    <option value="artist">Artist</option>
-                </select>
+                <div className="songs-main-content flex-fill">
+                    <section className="active-filters-panel mb-4 p-4 rounded-4 shadow-sm bg-white d-flex flex-column gap-3">
+                        <div className="d-flex align-items-center justify-content-between gap-3">
+                            <div>
+                                <h2 className="h5 mb-0">Active filters</h2>
+                            </div>
+                            <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => {
+                                setTitleFilter("");
+                                setYearFilter([]);
+                                setArtistFilter([]);
+                                setGenreFilter([]);
+                            }}>
+                                Reset filters
+                            </button>
+                        </div>
+                        {activeFiltersDisplay}
+                    </section>
 
-                <button onClick={() => {
-                    setTitleFilter("");
-                    setYearFilter("");
-                    setArtistFilter("");
-                    setGenreFilter("");
-                }}>Reset Filters</button>
+                    <section>
+                        <div className="results-header d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-3">
+                            <h2 className="mb-0">Results</h2>
+                            <div className="results-sort d-flex align-items-center gap-2">
+                                <label className="form-label mb-0">Sort by</label>
+                                <select className="form-select song-filter-input" value={sortBy} onChange={(e) => { setSortBy(e.target.value); setIsFiltering(true); }}>
+                                    <option value="title">Title</option>
+                                    <option value="year">Year</option>
+                                    <option value="artist">Artist</option>
+                                    <option value="genre">Genre</option>
+                                </select>
+                            </div>
+                        </div>
+                        {isFiltering ? (
+                            <div className="d-flex justify-content-center align-items-center py-4">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Applying filters...</span>
+                                </div>
+                            </div>
+                        ) : (
+                            results
+                        )}
+                    </section>
+                </div>
             </section>
 
-            <section>
-                <h2>Choose Playlist</h2>
-
-                <select
-                    value={selectedPlaylist}
-                    onChange={(e) => setSelectedPlaylist(e.target.value)}
-                >
-                    <option value="">Select a playlist</option>
-
-                    {playlists.map((playlist, index) => (
-                        <option key={index} value={index}>
-                            {playlist.name}
-                        </option>
-                    ))}
-                </select>
-            </section>
-
-            <section>
-                <h2>Active Filters</h2>
-                {activeFiltersDisplay}
-            </section>
-
-            <section>
-                <h2>Results</h2>
-                {results}
-            </section>
-
+            {showToast && (
+                <div className="song-toast-container">
+                    <Toast bg={toastVariant} onClose={() => setShowToast(false)} show={showToast} delay={2500} autohide>
+                        <Toast.Header>
+                            <strong className="me-auto">Playlist</strong>
+                        </Toast.Header>
+                        <Toast.Body className="text-white">{toastMessage}</Toast.Body>
+                    </Toast>
+                </div>
+            )}
         </main>
     );
 }

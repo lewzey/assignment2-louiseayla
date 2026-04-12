@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Spinner from 'react-bootstrap/Spinner'
 import supabase from '../lib/supabase';
 
 function SingleSong() {
@@ -82,9 +83,14 @@ function SingleSong() {
     }, [id]);
 
     if (!song) {
-        return <p>Loading...</p>
+        return (
+            <div className="d-flex justify-content-center align-items-center vh-100">
+                <Spinner animation="border" role="status" variant="primary">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
+        )
     }
-
     return (
         <main>
             <h1>{song.title}</h1>

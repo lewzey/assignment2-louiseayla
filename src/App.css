@@ -1,3 +1,11 @@
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Trebuchet MS", sans-serif;
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -189,6 +197,268 @@ main {
   padding: 20px;
 }
 
+.songs-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.songs-header p {
+  margin-bottom: 0;
+  color: #50456a;
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.songs-panel {
+  border: 1px solid rgba(111, 66, 193, 0.15);
+}
+
+.songs-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .songs-layout {
+    flex-direction: row;
+  }
+}
+
+.songs-sidebar {
+  flex: 0 0 360px;
+  max-width: 360px;
+}
+
+.songs-main-content {
+  min-width: 0;
+}
+
+.songs-panel-row {
+  gap: 1.5rem;
+}
+
+.songs-filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.song-toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1055;
+  width: auto;
+  max-width: calc(100% - 40px);
+  pointer-events: auto;
+}
+
+.songs-filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.dropdown-checkbox {
+  position: relative;
+}
+
+.dropdown-checkbox button {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.dropdown-checkbox .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.9rem;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  max-height: 260px;
+  overflow-y: auto;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-checkbox .checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  padding: 0.35rem 0.35rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.dropdown-checkbox .checkbox-item:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-checkbox .checkbox-item input {
+  width: 16px;
+  height: 16px;
+}
+
+.song-filter-input,
+.songs-playlist-panel .form-select {
+  border-radius: 0.9rem;
+  padding: 0.85rem 0.9rem;
+}
+
+.songs-playlist-panel {
+  min-width: 240px;
+  max-width: 320px;
+  background: #f8f0ff;
+  border: 1px solid rgba(111, 66, 193, 0.12);
+  color: #422d6a;
+}
+
+.songs-playlist-panel h2,
+.songs-playlist-panel p {
+  color: #3f215f;
+}
+
+.active-filters-panel {
+  border: 1px solid rgba(111, 66, 193, 0.12);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  background: #faf5ff;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: #e9d7ff;
+  color: #4b1976;
+  font-size: 0.95rem;
+  border: 1px solid rgba(111, 66, 193, 0.2);
+}
+
+.filter-chip-button {
+  appearance: none;
+  border: none;
+  background: #e9d7ff;
+  color: #4b1976;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+}
+
+.filter-chip-button:hover,
+.filter-chip-button:focus {
+  background: #d8c1ff;
+  outline: none;
+}
+
+.filter-note {
+  color: #6b529f;
+  font-size: 0.95rem;
+}
+
+.results-header {
+  gap: 1rem;
+}
+
+.results-sort {
+  min-width: 220px;
+}
+
+.results-sort .form-select {
+  padding: 0.55rem 0.75rem;
+}
+
+.playlists-panel {
+  border: 1px solid rgba(111, 66, 193, 0.15);
+}
+
+.create-playlist-row h2,
+.playlists-list h2 {
+  margin-bottom: 1rem;
+}
+
+.playlists-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.playlist-card {
+  border: 1px solid rgba(111, 66, 193, 0.12);
+  border-radius: 1.25rem;
+  background: white;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(111, 66, 193, 0.06);
+}
+
+.playlists-list > .playlist-card:nth-child(2n) {
+  background: #f3e8ff;
+}
+
+.playlist-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.playlist-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.playlist-card-header p {
+  margin: 0;
+  color: #6b529f;
+}
+
+.playlist-card button {
+  min-width: 140px;
+}
+
+.playlist-songs {
+  margin-top: 1rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.playlist-songs li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(111, 66, 193, 0.12);
+}
+
+.playlist-songs li:last-child {
+  border-bottom: none;
+}
+
+.playlist-songs li p {
+  margin: 0;
+}
+
+.playlist-songs li button {
+  padding: 0.45rem 0.85rem;
+}
+
 main p {
   margin-bottom: 8px;
 }
@@ -259,4 +529,207 @@ section {
 
 select {
   margin-bottom: 10px;
+}
+
+.custom-navbar {
+    width: 100%;
+    background: linear-gradient(90deg, #5f2c82, #8e44ad);
+    padding-top: 20px;
+    margin-left: 0;
+    display: block;
+}
+
+.custom-navbar .nav-link {
+    color: white !important;
+    margin: 0 8px;
+    font-family: "Trebuchet MS", sans-serif;
+    
+}
+
+.custom-navbar .nav-link:hover {
+  background-color: #35063e;
+  font-size: 1.05em;
+  border-radius: 4px;
+}
+
+.footer-navbar {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.list-item-title {
+    color: black !important;
+    font-family: "Trebuchet MS", sans-serif;
+    text-transform: capitalize;
+}
+
+.genre-text {
+    text-transform: capitalize;
+}
+
+.list-group-flush > .list-group-item,
+.list-group > .list-group-item {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.list-group-flush > .list-group-item + .list-group-item,
+.list-group > .list-group-item + .list-group-item {
+    border-top: none;
+}
+
+.list-group-flush > .list-group-item:nth-child(2n),
+.list-group > .list-group-item:nth-child(2n) {
+    background-color: #f3e8ff;
+}
+
+.list-item-title:hover,
+.list-item-title:focus {
+    color: black !important;
+    text-decoration: none;
+}
+
+.brand {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-image {
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 360px;
+    object-fit: cover;
+    display: block;
+}
+
+.artist-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .artist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1200px) {
+    .artist-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.artist-card-item {
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    background: white;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.artist-grid > .artist-card-item:nth-child(2n) {
+    background-color: #f3e8ff;
+}
+
+.artist-grid > .artist-card-item:nth-child(2n) .card-body,
+.artist-grid > .artist-card-item:nth-child(2n) .card-title,
+.artist-grid > .artist-card-item:nth-child(2n) .artist-description {
+    background-color: transparent;
+}
+
+.artist-card-image {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.single-artist-detail {
+    width: 100%;
+    max-width: none;
+    align-items: flex-start;
+}
+
+.single-artist-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.single-artist-image {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.artist-description {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.artist-card-title {
+    color: black;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.btn-purple {
+    color: #fff;
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-purple:hover,
+.btn-purple:focus {
+    color: #fff;
+    background-color: #5a34a0;
+    border-color: #52328f;
+}
+
+.artist-card-title {
+    color: black;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.spotify-desc {
+    min-height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.about-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* optional circle */
 }
