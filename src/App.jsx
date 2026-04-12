@@ -19,6 +19,7 @@ import SingleGenre from './components/SingleGenre.jsx';
 import Playlists from './components/Playlists.jsx';
 
 import louiseImg from './assets/louise.jpg';
+import aylaImg from './assets/ayla.png';
 
 function AboutModal({ onClose }) {
   return (
@@ -48,7 +49,12 @@ function AboutModal({ onClose }) {
         </div>
         <div className="about-modal-section mt-3">
           <h5 className='text-center'>About Ayla</h5>
-          <p>Ayla to be answered</p>
+          <div className="about-modal-section mt-3 d-flex align-items-center gap-3">
+            <img src={aylaImg} alt="Louise" className="about-image" />
+            <p> Ayla is currently in her fourth year of Computer Science at Mount Royal University. Through this project, 
+              she has enjoyed building her web development skills and team collaboration.
+            </p>
+          </div>
         </div>
         <div className="about-modal-section mt-3">
           <h5 className='text-center'>About Louise</h5>
