@@ -5,7 +5,7 @@ import Toast from 'react-bootstrap/Toast';
 import supabase from '../lib/supabase';
 import SongList from './SongList.jsx';
 
-function Songs(props) {
+function Songs({ playlists, setPlaylists, currentPlaylistId, setCurrentPlaylistId, setIsLoading, isLoggedIn }) {
 
     const [titleFilter, setTitleFilter] = useState("");
     const [yearFilter, setYearFilter] = useState([]);
@@ -26,21 +26,33 @@ function Songs(props) {
     const [showToast, setShowToast] = useState(false);
 
     // const currentPlaylistId = props.currentPlaylistId;
-    const setCurrentPlaylistId = props.setCurrentPlaylistId;
+    // const setCurrentPlaylistId = props.setCurrentPlaylistId;
 
     const handleAddSong = (song) => {
+        if (!isLoggedIn) {
+            setToastVariant('danger');
+            setToastMessage('Please log in to add songs to a playlist.');
+            setShowToast(true);
+            return;
+        }
+
         if (selectedPlaylist === "") {
+            setToastVariant('danger');
+            setToastMessage('Please select a playlist first.');
+            setShowToast(true);
             return;
         }
 
         const playlistId = parseInt(selectedPlaylist, 10);
-        const playlistIndex = props.playlists.findIndex((playlist) => playlist.id === playlistId);
-        const playlist = props.playlists[playlistIndex];
+        const playlistIndex = playlists.findIndex((playlist) => playlist.id === playlistId);
+        const playlist = playlists[playlistIndex];
+
         if (!playlist) {
             return;
         }
 
         const alreadyExists = playlist.songs.some((item) => item.id === song.id);
+
         if (alreadyExists) {
             setToastVariant('danger');
             setToastMessage('This song is already in your playlist!');
@@ -49,21 +61,22 @@ function Songs(props) {
         }
 
         const playlistName = playlist.name || 'playlist';
-        const updatedPlaylists = [...props.playlists];
+        const updatedPlaylists = [...playlists];
+
         updatedPlaylists[playlistIndex] = {
             ...updatedPlaylists[playlistIndex],
             songs: [...updatedPlaylists[playlistIndex].songs, song],
         };
 
-        props.setPlaylists(updatedPlaylists);
+        setPlaylists(updatedPlaylists);
         setToastVariant('success');
         setToastMessage(`Added "${song.title}" to ${playlistName}`);
         setShowToast(true);
     };
 
     useEffect(() => {
-        if (typeof props.setIsLoading === 'function') {
-            props.setIsLoading();
+        if (typeof setIsLoading === 'function') {
+            setIsLoading();
         }
 
         async function getSongs() {
@@ -119,13 +132,28 @@ function Songs(props) {
                 setSongs(mappedSongs);
             }
 
-            if (typeof props.setIsLoading === 'function') {
-                props.setIsLoading(false);
+            if (typeof setIsLoading === 'function') {
+                setIsLoading(false);
             }
         }
 
         getSongs();
-    }, [props.setIsLoading]);
+    }, [setIsLoading]);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setSelectedPlaylist("");
+            setCurrentPlaylistId(null);
+        }
+    }, [isLoggedIn, setCurrentPlaylistId]);
+
+    useEffect(() => {
+        if (currentPlaylistId) {
+            setSelectedPlaylist(String(currentPlaylistId));
+        } else {
+            setSelectedPlaylist("");
+        }
+    }, [currentPlaylistId]);
 
     const yearOptions = Array.from(new Set(songs.map((song) => song.year))).sort((a, b) => a - b);
     const artistOptions = Array.from(new Set(songs.map((song) => song.artist))).sort();
@@ -164,7 +192,7 @@ function Songs(props) {
     results = (
         <SongList
             songs={sortedSongs}
-            playlists={props.playlists}
+            playlists={playlists}
             selectedPlaylist={selectedPlaylist}
             onAddSong={handleAddSong}
         />
@@ -254,30 +282,35 @@ function Songs(props) {
 
             <section className="songs-layout mb-4 d-flex flex-column flex-lg-row gap-4">
                 <aside className="songs-sidebar flex-shrink-0">
-                    <div className="songs-panel p-4 rounded-4 shadow-sm bg-lilac">
-                        <div className="d-flex align-items-center justify-content-between mb-3">
-                            <div>
-                                <h2 className="mb-1">Choose playlist</h2>
-                                <p className="text-muted mb-0">Select where new songs go.</p>
+                    {!isLoggedIn && (
+                        <p>Log in to create a playlist!</p>
+                    )}
+                    {isLoggedIn && (
+                        <div className="songs-panel p-4 rounded-4 shadow-sm bg-lilac">
+                            <div className="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <h2 className="mb-1">Choose playlist</h2>
+                                    <p className="text-muted mb-0">Select where new songs go.</p>
+                                </div>
                             </div>
+                            <select
+                                className="form-select"
+                                value={selectedPlaylist}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setSelectedPlaylist(value);
+                                    setCurrentPlaylistId(value === "" ? null : Number(value));
+                                }}
+                            >
+                                <option value="">( No playlist selected )</option>
+                                {playlists.map((playlist) => (
+                                    <option key={playlist.id} value={playlist.id}>
+                                        {playlist.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        <select
-                            className="form-select"
-                            value={selectedPlaylist}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                setSelectedPlaylist(value);
-                                setCurrentPlaylistId(value === "" ? null : Number(value));
-                            }}
-                        >
-                            <option value="">( No playlist selected )</option>
-                            {props.playlists.map((playlist) => (
-                                <option key={playlist.id} value={playlist.id}>
-                                    {playlist.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    )}
                     <div className="songs-panel mb-4 p-4 rounded-4 shadow-sm bg-white">
                         <div className="songs-filters">
                             <div className="section-heading mb-3">

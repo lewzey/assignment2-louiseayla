@@ -59,23 +59,42 @@ function Playlists(props) {
                     className="playlist-card"
                     onClick={() => setCurrentPlaylistId(p.id)}
                 >
-                    <div className="playlist-card-header">
-                        <div>
-                            <h3>{p.name}</h3>
-                            <p>{p.songs.length} song{p.songs.length === 1 ? '' : 's'}</p>
-                        </div>
-                        <button className="btn btn-sm btn-outline-danger" onClick={(e) => {
-                            e.stopPropagation();
-
-                            const updatedPlaylists = [...playlists];
-                            updatedPlaylists.splice(index, 1);
-                            setPlaylists(updatedPlaylists);
-
-                            if (currentPlaylistId === p.id) {
-                                setCurrentPlaylistId(null);
-                            }
-                        }}>Delete playlist</button>
+                <div className="playlist-card-header">
+                    <div>
+                        <h3>{p.name}</h3>
+                        <p>{p.songs.length} song{p.songs.length === 1 ? '' : 's'}</p>
+                        {currentPlaylistId === p.id && <p>Selected</p>}
                     </div>
+
+                    <div className="d-flex gap-2">
+                        <button
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setCurrentPlaylistId(p.id);
+                            }}
+                        >
+                            Select playlist
+                        </button>
+
+                        <button
+                            className="btn btn-sm btn-outline-danger"
+                            onClick={(e) => {
+                                e.stopPropagation();
+
+                                const updatedPlaylists = [...playlists];
+                                updatedPlaylists.splice(index, 1);
+                                setPlaylists(updatedPlaylists);
+
+                                if (currentPlaylistId === p.id) {
+                                    setCurrentPlaylistId(null);
+                                }
+                            }}
+                        >
+                            Delete playlist
+                        </button>
+                    </div>
+                </div>
                     {songsDisplay}
                 </div>
             );

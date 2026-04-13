@@ -3,13 +3,19 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
+function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, setCurrentPlaylistId }) {
     const location = useLocation();
 
     const handleClick = () => {
         if (typeof setIsLoading === 'function') {
             setIsLoading();
         }
+    };
+
+    const handleLogout = () => {
+        handleClick();
+        setIsLoggedIn(false);
+        setCurrentPlaylistId(null);
     };
 
     return (
@@ -25,7 +31,11 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
                         <Nav.Link as={Link} to="/artists" onClick={handleClick}>Artists</Nav.Link>
                         <Nav.Link as={Link} to="/genres" onClick={handleClick}>Genres</Nav.Link>
                         <Nav.Link as={Link} to="/songs" onClick={handleClick}>Songs</Nav.Link>
-                        <Nav.Link as={Link} to="/playlists" onClick={handleClick}>Playlists</Nav.Link>
+
+                        {isLoggedIn && (
+                            <Nav.Link as={Link} to="/playlists" onClick={handleClick}>Playlists</Nav.Link>
+                        )}
+
                         <Nav.Link
                             as={Link}
                             to="/about"
@@ -37,7 +47,11 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
                     </Nav>
 
                     <Nav>
-                        <Nav.Link as={Link} to="/login" onClick={handleClick}>Login</Nav.Link>
+                        {!isLoggedIn ? (
+                            <Nav.Link as={Link} to="/login" onClick={handleClick}>Login</Nav.Link>
+                        ) : (
+                            <Nav.Link as={Link} to="/" onClick={handleLogout}>Logout</Nav.Link>
+                        )}
                     </Nav>
                 </Container>
 
@@ -49,6 +63,6 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
             </Navbar>
         </header>
     );
-};
+}
 
 export default HeaderApp;

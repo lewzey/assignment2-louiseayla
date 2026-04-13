@@ -17,6 +17,7 @@ import SingleArtist from './components/SingleArtist.jsx';
 import SingleGenre from './components/SingleGenre.jsx';
 
 import Playlists from './components/Playlists.jsx';
+import Login from './components/Login.jsx';
 
 import louiseImg from './assets/louise.jpg';
 import aylaImg from './assets/ayla.png';
@@ -96,12 +97,26 @@ function App() {
     (playlist) => playlist.id === currentPlaylistId
   );
 
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
   const [isLoading, setIsLoading] = useState(false);
+
   const loadingTimeoutRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem('playlists', JSON.stringify(playlists));
   }, [playlists]);
+
+  useEffect(() => {
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setCurrentPlaylistId(null);
+    }
+  }, [isLoggedIn]);
 
   const showLoading = () => {
     setIsLoading(true);
@@ -135,6 +150,9 @@ function App() {
       <HeaderApp
         setIsLoading={showLoading}
         currentPlaylist={currentPlaylist}
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        setCurrentPlaylistId={setCurrentPlaylistId}
       />
       {isLoading && (
         <div className="loading-overlay">
@@ -150,7 +168,6 @@ function App() {
           <Route path="/artist/:id" element={<SingleArtist />} />
           <Route path="/genres" element={<Genres setIsLoading={hideLoading} />} />
           <Route path="/genre/:id" element={<SingleGenre />} />
-
           <Route
             path="/songs"
             element={
@@ -160,12 +177,11 @@ function App() {
                 currentPlaylistId={currentPlaylistId}
                 setCurrentPlaylistId={setCurrentPlaylistId}
                 setIsLoading={hideLoading}
+                isLoggedIn={isLoggedIn}
               />
             }
           />
-
           <Route path="/song/:id" element={<SingleSong />} />
-
           <Route
             path="/playlists"
             element={
@@ -178,9 +194,16 @@ function App() {
               />
             }
           />
-
           <Route path="/about" element={<AboutModal onClose={closeAbout} />} />
-          <Route path="/login" element={<h1>Login</h1>} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                setIsLoading={hideLoading}
+              />
+            }
+          />
         </Routes>
       </div>
       {backgroundLocation && location.pathname === '/about' && <AboutModal onClose={closeAbout} />}
