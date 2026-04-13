@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
 import supabase from '../lib/supabase';
 import SongList from './SongList.jsx';
@@ -25,12 +25,16 @@ function Songs(props) {
     const [toastVariant, setToastVariant] = useState('success');
     const [showToast, setShowToast] = useState(false);
 
+    // const currentPlaylistId = props.currentPlaylistId;
+    const setCurrentPlaylistId = props.setCurrentPlaylistId;
+
     const handleAddSong = (song) => {
         if (selectedPlaylist === "") {
             return;
         }
 
-        const playlistIndex = parseInt(selectedPlaylist, 10);
+        const playlistId = parseInt(selectedPlaylist, 10);
+        const playlistIndex = props.playlists.findIndex((playlist) => playlist.id === playlistId);
         const playlist = props.playlists[playlistIndex];
         if (!playlist) {
             return;
@@ -56,15 +60,6 @@ function Songs(props) {
         setToastMessage(`Added "${song.title}" to ${playlistName}`);
         setShowToast(true);
     };
-
-    /*
-    // test songs
-    const songs = [
-        {id: 1, title: "Love Song", artist: "Artist A", year: 2018, genre: "Pop"},
-        {id: 2, title: "Sky High", artist: "Artist B", year: 2020, genre: "Pop"},
-        {id: 3, title: "Midnight", artist: "Artist C", year: 2016, genre: "Country"}
-    ];
-    */
 
     useEffect(() => {
         if (typeof props.setIsLoading === 'function') {
@@ -264,10 +259,18 @@ function Songs(props) {
                                 <p className="text-muted mb-0">Select where new songs go.</p>
                             </div>
                         </div>
-                        <select className="form-select" value={selectedPlaylist} onChange={(e) => setSelectedPlaylist(e.target.value)}>
+                        <select
+                            className="form-select"
+                            value={selectedPlaylist}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSelectedPlaylist(value);
+                                setCurrentPlaylistId(value === "" ? null : Number(value));
+                            }}
+                        >
                             <option value="">( No playlist selected )</option>
-                            {props.playlists.map((playlist, index) => (
-                                <option key={index} value={index}>
+                            {props.playlists.map((playlist) => (
+                                <option key={playlist.id} value={playlist.id}>
                                     {playlist.name}
                                 </option>
                             ))}

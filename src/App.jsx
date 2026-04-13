@@ -90,6 +90,12 @@ function App() {
     }
   });
 
+  const [currentPlaylistId, setCurrentPlaylistId] = useState(null);
+
+  const currentPlaylist = playlists.find(
+    (playlist) => playlist.id === currentPlaylistId
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const loadingTimeoutRef = useRef(null);
 
@@ -126,7 +132,10 @@ function App() {
 
   return (
     <main>
-      <HeaderApp setIsLoading={showLoading} />
+      <HeaderApp
+        setIsLoading={showLoading}
+        currentPlaylist={currentPlaylist}
+      />
       {isLoading && (
         <div className="loading-overlay">
           <Spinner animation="border" role="status" variant="primary">
@@ -141,9 +150,35 @@ function App() {
           <Route path="/artist/:id" element={<SingleArtist />} />
           <Route path="/genres" element={<Genres setIsLoading={hideLoading} />} />
           <Route path="/genre/:id" element={<SingleGenre />} />
-          <Route path="/songs" element={<Songs playlists={playlists} setPlaylists={setPlaylists} setIsLoading={hideLoading} />} />
-          <Route path="/song/:id" element={<SingleSong />}></Route>
-          <Route path="/playlists" element={<Playlists playlists={playlists} setPlaylists={setPlaylists} setIsLoading={hideLoading} />} />
+
+          <Route
+            path="/songs"
+            element={
+              <Songs
+                playlists={playlists}
+                setPlaylists={setPlaylists}
+                currentPlaylistId={currentPlaylistId}
+                setCurrentPlaylistId={setCurrentPlaylistId}
+                setIsLoading={hideLoading}
+              />
+            }
+          />
+
+          <Route path="/song/:id" element={<SingleSong />} />
+
+          <Route
+            path="/playlists"
+            element={
+              <Playlists
+                playlists={playlists}
+                setPlaylists={setPlaylists}
+                currentPlaylistId={currentPlaylistId}
+                setCurrentPlaylistId={setCurrentPlaylistId}
+                setIsLoading={hideLoading}
+              />
+            }
+          />
+
           <Route path="/about" element={<AboutModal onClose={closeAbout} />} />
           <Route path="/login" element={<h1>Login</h1>} />
         </Routes>
@@ -154,6 +189,5 @@ function App() {
   );
 
 }
-
 
 export default App

@@ -10,6 +10,8 @@ function Playlists(props) {
     const [newName, setNewName] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState("");
+    const currentPlaylistId = props.currentPlaylistId;
+    const setCurrentPlaylistId = props.setCurrentPlaylistId;
 
     useEffect(() => {
         if (typeof setIsLoading === 'function') {
@@ -35,7 +37,8 @@ function Playlists(props) {
                         {p.songs.map((song, i) => (
                             <li key={i}>
                                 <p className="mb-0">{song.title}</p>
-                                <button className="btn btn-sm btn-outline-secondary" onClick={() => {
+                                <button className="btn btn-sm btn-outline-secondary" onClick={(e) => {
+                                    e.stopPropagation();
                                     const updatedPlaylists = [...playlists];
                                     updatedPlaylists[index].songs.splice(i, 1);
                                     setPlaylists(updatedPlaylists);
@@ -51,19 +54,27 @@ function Playlists(props) {
             }
 
             return (
-                <div key={index} className="playlist-card">
+                <div
+                    key={index}
+                    className="playlist-card"
+                    onClick={() => setCurrentPlaylistId(p.id)}
+                >
                     <div className="playlist-card-header">
                         <div>
                             <h3>{p.name}</h3>
                             <p>{p.songs.length} song{p.songs.length === 1 ? '' : 's'}</p>
                         </div>
-                        <button className="btn btn-sm btn-outline-danger" onClick={() => {
+                        <button className="btn btn-sm btn-outline-danger" onClick={(e) => {
+                            e.stopPropagation();
+
                             const updatedPlaylists = [...playlists];
                             updatedPlaylists.splice(index, 1);
                             setPlaylists(updatedPlaylists);
-                        }}>
-                            Delete playlist
-                        </button>
+
+                            if (currentPlaylistId === p.id) {
+                                setCurrentPlaylistId(null);
+                            }
+                        }}>Delete playlist</button>
                     </div>
                     {songsDisplay}
                 </div>
@@ -92,12 +103,20 @@ function Playlists(props) {
                             />
                             <button className="btn btn-purple btn-sm" onClick={() => {
                                 if (newName !== "") {
-                                    setPlaylists([...playlists, { name: newName, songs: [] }]);
+                                    const newPlaylist = {
+                                        id: Date.now(),
+                                        name: newName,
+                                        songs: []
+                                    };
+
+                                    setPlaylists([
+                                        ...playlists,
+                                        newPlaylist
+                                    ]);
+                                    setCurrentPlaylistId(newPlaylist.id);
                                     setNewName("");
                                 }
-                            }}>
-                                Add playlist
-                            </button>
+                            }}>Add playlist</button>
                         </div>
                     </div>
                 </div>
