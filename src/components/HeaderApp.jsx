@@ -41,9 +41,11 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
                     </Nav>
                 </Container>
 
-                <div className="current-playlist-bar">
-                    Current Playlist: {currentPlaylist ? `${currentPlaylist.name} (${currentPlaylist.songs?.length || 0})` : 'None selected'}
-                </div>
+                {currentPlaylist && (
+                    <div className="current-playlist-bar">
+                        Current Playlist: {currentPlaylist.name} ({currentPlaylist.songs?.length || 0})
+                    </div>
+                )}
             </Navbar>
         </header>
     );
