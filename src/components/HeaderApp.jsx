@@ -26,7 +26,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                         Loula
                     </Navbar.Brand>
 
-                    <Nav className="mx-auto">
+                    <Nav className="mx-auto other-links">
                         <Nav.Link as={Link} to="/" onClick={handleClick}>Home</Nav.Link>
                         <Nav.Link as={Link} to="/artists" onClick={handleClick}>Artists</Nav.Link>
                         <Nav.Link as={Link} to="/genres" onClick={handleClick}>Genres</Nav.Link>
@@ -44,6 +44,24 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                         >
                             About
                         </Nav.Link>
+
+                        <Nav.Item className="playlist-slot">
+                            <Nav.Link
+                                as={Link}
+                                to="/playlists"
+                                className={`playlist-text ${currentPlaylist ? "show" : "hide"}`}
+                                onClick={handleClick}
+                            >
+                                {currentPlaylist && (
+                                    <>
+                                        {currentPlaylist.name}
+                                        <span className="playlist-count">
+                                            {currentPlaylist.songs?.length || 0}
+                                        </span>
+                                    </>
+                                )}
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
 
                     <Nav>
@@ -54,12 +72,6 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                         )}
                     </Nav>
                 </Container>
-
-                {currentPlaylist && (
-                    <div className="current-playlist-bar">
-                        Current Playlist: {currentPlaylist.name} ({currentPlaylist.songs?.length || 0})
-                    </div>
-                )}
             </Navbar>
         </header>
     );
