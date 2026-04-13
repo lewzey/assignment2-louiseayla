@@ -16,12 +16,19 @@ const Home = (props) => {
 
     return (
         <Carousel>
-            <Carousel.Item interval={1000}>
+            <Carousel.Item interval={1000} className="carousel-hero">
                 {/*Image by <a href="https://pixabay.com/users/davidenglund-2685832/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1440961">David Englund</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1440961">Pixabay</a> */}
-                <img src={fire} alt="First slide" className="artist-image mb-4 mb-4 border border-dark rounded" />
+                <img
+                    src={fire}
+                    alt="First slide"
+                    className="artist-image-zara mb-4 mb-4 border border-dark rounded"
+                />
+
                 <Carousel.Caption>
-                    <h3>Welcome to Loula! </h3>
-                    <p>Loula is a music playlist builder built by Ayla and Louise that allows users to browse songs, filter them by artist, genre, or year, and create custom playlists.</p>
+                    <h3 className="carousel-title">Welcome to Loula!</h3>
+                    <p className="carousel-text">
+                        Loula is a music playlist builder built by Ayla and Louise that allows users to browse songs, filter them by artist, genre, or year, and create custom playlists.
+                    </p>
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item interval={1000}>
@@ -37,9 +44,9 @@ const Home = (props) => {
                 <Carousel.Caption>
                     <h3>K-pop songs on the rise</h3>
                     <p>
-                        Who doesn't love a good K-pop song? Take a peek inside the most popular K-pop songs right now! 
+                        Who doesn't love a good K-pop song? Take a peek inside the most popular K-pop songs right now!
                     </p>
-                     <Button as={Link} to="/genre/123" variant="light">K-pop Songs</Button>
+                    <Button as={Link} to="/genre/123" variant="light">K-pop Songs</Button>
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item interval={1000}>

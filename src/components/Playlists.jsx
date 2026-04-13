@@ -84,9 +84,11 @@ function Playlists(props) {
 
     return (
         <main>
-            <div className="page-header text-center mb-4">
-                <h1>Playlists</h1>
-                <p className="text-muted justify-content-center">Create playlists, browse the songs inside, and remove items with ease.</p>
+            <div className="songs-header">
+                <h1 className="songs-title">Playlists</h1>
+                <p className="songs-subtitle">
+                    Create playlists, browse the songs inside, and remove items with ease.
+                </p>
             </div>
 
             <section className="playlists-panel mb-4 p-4 rounded-4 shadow-sm bg-white">

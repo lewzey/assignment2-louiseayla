@@ -59,8 +59,17 @@ function Genres(props) {
     return (
         <main>
             {/* Image by https://pixabay.com/users/thorstenf-7677369/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4197733">Thorsten Frenzel from https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4197733" Pixabay */}
-            <img src={genreImage} alt="Genres" className="artist-image mb-4 border border-dark rounded" />
-            <h1>Genres</h1>
+            <div className="genre-image">
+                <img
+                    src={genreImage}
+                    alt="Genres"
+                    className="artist-image"
+                />
+
+                <h1 className="genre-overlay-text">
+                    Genres
+                </h1>
+            </div>
             <p className="justify-content-center"> Check out some more songs from your favourite genres!</p>
             <ListGroup variant="flush">
                 {genresDisplay}

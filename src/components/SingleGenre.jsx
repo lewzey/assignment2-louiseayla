@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import supabase from '../lib/supabase';
 import SongList from './SongList.jsx';
+import listening from '../assets/listening.png'
 
 function SingleGenre() {
   const { id } = useParams();
@@ -70,8 +71,18 @@ function SingleGenre() {
 
   return (
     <main>
-      <h1>{genre.genre_name}</h1>
-      <h2>Songs</h2>
+      <div className="genre-image">
+        <img
+          src={listening}
+          alt="Image Listening"
+          className="artist-image"
+        />
+
+        <h1 className="genre-overlay-text">
+          {genre.genre_name}
+        </h1>
+      </div>
+      <h2 className='genre-text'>{genre.genre_name} Songs</h2>
       {songsDisplay}
     </main>
   );

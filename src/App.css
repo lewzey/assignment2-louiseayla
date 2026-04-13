@@ -1,3 +1,9 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 body,
 button,
 input,
@@ -19,6 +25,7 @@ textarea {
   &:hover {
     border-color: var(--accent-border);
   }
+
   &:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -50,8 +57,7 @@ textarea {
     z-index: 1;
     top: 34px;
     height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
   }
 
   .vite {
@@ -59,8 +65,7 @@ textarea {
     top: 107px;
     height: 26px;
     width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
   }
 }
 
@@ -83,9 +88,10 @@ textarea {
   border-top: 1px solid var(--border);
   text-align: left;
 
-  & > div {
+  &>div {
     flex: 1 1 0;
     padding: 32px;
+
     @media (max-width: 1024px) {
       padding: 24px 20px;
     }
@@ -138,6 +144,7 @@ textarea {
     &:hover {
       box-shadow: var(--shadow);
     }
+
     .button-icon {
       height: 18px;
       width: 18px;
@@ -164,6 +171,7 @@ textarea {
 #spacer {
   height: 88px;
   border-top: 1px solid var(--border);
+
   @media (max-width: 1024px) {
     height: 48px;
   }
@@ -185,6 +193,7 @@ textarea {
     left: 0;
     border-left-color: var(--border);
   }
+
   &::after {
     right: 0;
     border-right-color: var(--border);
@@ -192,10 +201,6 @@ textarea {
 }
 
 /* ----- Songs Page Layout ----- */
-
-main {
-  padding: 20px;
-}
 
 .songs-header h1 {
   margin-bottom: 0.25rem;
@@ -406,7 +411,7 @@ main {
   box-shadow: 0 8px 24px rgba(111, 66, 193, 0.06);
 }
 
-.playlists-list > .playlist-card:nth-child(2n) {
+.playlists-list>.playlist-card:nth-child(2n) {
   background: #f3e8ff;
 }
 
@@ -532,18 +537,18 @@ select {
 }
 
 .custom-navbar {
-    width: 100%;
-    background: linear-gradient(90deg, #5f2c82, #8e44ad);
-    padding-top: 20px;
-    margin-left: 0;
-    display: block;
+  width: 100%;
+  background: linear-gradient(90deg, #5f2c82, #8e44ad);
+  padding-top: 20px;
+  margin-left: 0;
+  display: block;
 }
 
 .custom-navbar .nav-link {
-    color: white !important;
-    margin: 0 8px;
-    font-family: "Trebuchet MS", sans-serif;
-    
+  color: white !important;
+  margin: 0 8px;
+  font-family: "Trebuchet MS", sans-serif;
+
 }
 
 .custom-navbar .nav-link:hover {
@@ -558,231 +563,364 @@ select {
 }
 
 .list-item-title {
-    color: black !important;
-    font-family: "Trebuchet MS", sans-serif;
-    text-transform: capitalize;
+  color: black !important;
+  font-family: "Trebuchet MS", sans-serif;
+  text-transform: capitalize;
 }
 
 .genre-text {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
-.list-group-flush > .list-group-item,
-.list-group > .list-group-item {
-    border: none;
-    border-radius: 0;
-    margin: 0;
+.list-group-flush>.list-group-item,
+.list-group>.list-group-item {
+  border: none;
+  border-radius: 0;
+  margin: 0;
 }
 
-.list-group-flush > .list-group-item + .list-group-item,
-.list-group > .list-group-item + .list-group-item {
-    border-top: none;
+.list-group-flush>.list-group-item+.list-group-item,
+.list-group>.list-group-item+.list-group-item {
+  border-top: none;
 }
 
-.list-group-flush > .list-group-item:nth-child(2n),
-.list-group > .list-group-item:nth-child(2n) {
-    background-color: #f3e8ff;
+.list-group-flush>.list-group-item:nth-child(2n),
+.list-group>.list-group-item:nth-child(2n) {
+  background-color: #f3e8ff;
 }
 
 .list-item-title:hover,
 .list-item-title:focus {
-    color: black !important;
-    text-decoration: none;
+  color: black !important;
+  text-decoration: none;
 }
 
 .brand {
-    color: white !important;
-    font-weight: bold;
-    font-size: 1.5rem;
-    font-family: "Trebuchet MS", sans-serif;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+  font-family: "Trebuchet MS", sans-serif;
 }
 
 .loading-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .artist-image {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    height: 600px;
-    object-fit: cover;
-    object-position:  50% 30%;; 
-    display: block;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 600px;
+  object-fit: cover;
+  object-position: 50% 30%;
+  ;
+  display: block;
 }
 
 
 .artist-image-ari {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    height: 600px;
-    object-fit: cover;
-    object-position:  50% 25%;; 
-    display: block;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 600px;
+  object-fit: cover;
+  object-position: 50% 25%;
+  ;
+  display: block;
 }
 
 .artist-image-zara {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
-    height: 600px;
-    object-fit: cover;
-    object-position:  50% 30%;; 
-    display: block;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 600px;
+  object-fit: cover;
+  object-position: 50% 30%;
+  ;
+  display: block;
 }
 
 
 .artist-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 @media (min-width: 768px) {
-    .artist-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  .artist-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1200px) {
-    .artist-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
+  .artist-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .artist-card-item {
-    padding: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 1rem;
-    background: white;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  background: white;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
-.artist-grid > .artist-card-item:nth-child(2n) {
-    background-color: #f3e8ff;
+.artist-grid>.artist-card-item:nth-child(2n) {
+  background-color: #f3e8ff;
 }
 
-.artist-grid > .artist-card-item:nth-child(2n) .card-body,
-.artist-grid > .artist-card-item:nth-child(2n) .card-title,
-.artist-grid > .artist-card-item:nth-child(2n) .artist-description {
-    background-color: transparent;
+.artist-grid>.artist-card-item:nth-child(2n) .card-body,
+.artist-grid>.artist-card-item:nth-child(2n) .card-title,
+.artist-grid>.artist-card-item:nth-child(2n) .artist-description {
+  background-color: transparent;
 }
 
 .artist-card-image {
-    width: 100%;
-    max-width: 320px;
-    height: 320px;
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .single-artist-detail {
-    width: 100%;
-    max-width: none;
-    align-items: flex-start;
+  width: 100%;
+  max-width: none;
+  align-items: flex-start;
 }
 
 .single-artist-info {
-    flex: 1;
-    min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .single-artist-image {
-    width: 100%;
-    max-width: 320px;
-    height: 320px;
-    object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .artist-description {
-    font-size: 1.5rem;
-    line-height: 1.6;
-    color: #333;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: #333;
 }
 
 .artist-card-title {
-    color: black;
-    font-family: "Trebuchet MS", sans-serif;
-    font-size: 1.65rem;
-    font-weight: 700;
-    text-transform: capitalize;
+  color: black;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .btn-purple {
-    color: #fff;
-    background-color: #6f42c1;
-    border-color: #6f42c1;
+  color: #fff;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
 }
 
 .btn-purple:hover,
 .btn-purple:focus {
-    color: #fff;
-    background-color: #5a34a0;
-    border-color: #52328f;
+  color: #fff;
+  background-color: #5a34a0;
+  border-color: #52328f;
 }
 
 .artist-card-title {
-    color: black;
-    font-family: "Trebuchet MS", sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: capitalize;
+  color: black;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .spotify-desc {
-    min-height: 4rem;
-    margin-bottom: 1rem;
+  min-height: 4rem;
+  margin-bottom: 1rem;
 }
 
 .about-image {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%; 
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-/* Dark overlay on images */
+
 .carousel-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%); 
-    width: 100vw;
-    height: 600px; 
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 600px;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
 }
+
 
 .carousel-caption {
-    z-index: 2;
-    left: 0;
-    right: 0;
-    text-align: center;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
 
 .carousel-caption h3,
 .carousel-caption p {
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 700px; 
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 700px;
+}
+
+.carousel-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 600px;
+  background: rgba(0, 0, 0, 0.65); 
+  z-index: 1;
+}
+
+
+.carousel-hero .carousel-caption {
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: auto;
+  text-align: center;
+}
+
+.carousel-hero .carousel-caption h3 {
+  color: white;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  text-shadow: 0 4px 20px rgba(0,0,0,0.9);
+}
+
+.carousel-hero .carousel-caption p {
+  color: white;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+}
+.genre-image {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 400px;
+  overflow: hidden;
+}
+
+
+.genre-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+.genre-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4),  
+    rgba(0, 0, 0, 0.7)    
+  );
+}
+
+.genre-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  color: white;
+  text-align: center;
+
+  font-size: clamp(2.5rem, 6vw, 5rem); 
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.songs-header {
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 24px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(111, 66, 193, 0.15),
+    rgba(171, 97, 202, 0.25)
+  );
+  animation: fadeUp 0.6s ease;
+  border-radius: 16px;
+  border: 1px solid rgba(111, 66, 193, 0.2);
+}
+
+.songs-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+
+  color: #3f215f;
+}
+
+.songs-subtitle {
+  font-size: 1.1rem;
+  color: #6b529f;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
