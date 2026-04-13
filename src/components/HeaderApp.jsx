@@ -20,20 +20,27 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
                         Loula
                     </Navbar.Brand>
 
-                    <Nav className="mx-auto">
+                    <Nav className="mx-auto other-links">
                         <Nav.Link as={Link} to="/" onClick={handleClick}>Home</Nav.Link>
                         <Nav.Link as={Link} to="/artists" onClick={handleClick}>Artists</Nav.Link>
                         <Nav.Link as={Link} to="/genres" onClick={handleClick}>Genres</Nav.Link>
                         <Nav.Link as={Link} to="/songs" onClick={handleClick}>Songs</Nav.Link>
                         <Nav.Link as={Link} to="/playlists" onClick={handleClick}>Playlists</Nav.Link>
-                        <Nav.Link
-                            as={Link}
-                            to="/about"
-                            state={{ backgroundLocation: location }}
-                            onClick={handleClick}
-                        >
+                        <Nav.Link as={Link} to="/about" state={{ backgroundLocation: location }} onClick={handleClick}>
                             About
                         </Nav.Link>
+                        <Nav.Item className="playlist-slot">
+                            <Nav.Link as={Link} to="/playlists" className={`playlist-text ${currentPlaylist ? "show" : "hide"}`}>
+                                {currentPlaylist && (
+                                    <>
+                                        {currentPlaylist.name}
+                                        <span className="playlist-count">
+                                            {currentPlaylist.songs?.length || 0}
+                                        </span>
+                                    </>
+                                )}
+                            </Nav.Link>
+                        </Nav.Item>
                     </Nav>
 
                     <Nav>
@@ -41,11 +48,6 @@ const HeaderApp = ({ setIsLoading, currentPlaylist }) => {
                     </Nav>
                 </Container>
 
-                {currentPlaylist && (
-                    <div className="current-playlist-bar">
-                        Current Playlist: {currentPlaylist.name} ({currentPlaylist.songs?.length || 0})
-                    </div>
-                )}
             </Navbar>
         </header>
     );
