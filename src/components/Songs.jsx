@@ -250,14 +250,16 @@ function Songs(props) {
 
     return (
         <main>
-            <div className="songs-header mb-4 text-center">
-                <h1>Songs</h1>
-                <p className="text-muted">Search by title, year, artist, or genre, then add songs directly to your playlist.</p>
+            <div className="songs-header">
+                <h1 className="songs-title">Songs</h1>
+                <p className="songs-subtitle">
+                    Search by title, year, artist, or genre, then add songs directly to your playlist.
+                </p>
             </div>
 
             <section className="songs-layout mb-4 d-flex flex-column flex-lg-row gap-4">
                 <aside className="songs-sidebar flex-shrink-0">
-                                        <div className="songs-panel p-4 rounded-4 shadow-sm bg-lilac">
+                    <div className="songs-panel p-4 rounded-4 shadow-sm bg-lilac">
                         <div className="d-flex align-items-center justify-content-between mb-3">
                             <div>
                                 <h2 className="mb-1">Choose playlist</h2>
@@ -360,7 +362,7 @@ function Songs(props) {
                                                                 setIsFiltering(true);
                                                             }}
                                                         />
-                                                        <span>{genre}</span>
+                                                        <span className='genre-text'>{genre}</span>
                                                     </label>
                                                 ))}
                                             </div>
