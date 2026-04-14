@@ -168,7 +168,7 @@ function App() {
       )}
       <div>
         <Routes location={backgroundLocation || location}>
-          <Route path="/" element={<Home setIsLoading={hideLoading} />} />
+          <Route path="/" element={<Home setIsLoading={hideLoading} playlists={playlists} setPlaylists={setPlaylists} currentPlaylistId={currentPlaylistId} setCurrentPlaylistId={setCurrentPlaylistId} isLoggedIn={isLoggedIn} />} />
           <Route path="/artists" element={<Artists setIsLoading={hideLoading} />} />
           <Route path="/artist/:id" element={<SingleArtist />} />
           <Route path="/genres" element={<Genres setIsLoading={hideLoading} />} />

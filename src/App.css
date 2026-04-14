@@ -790,11 +790,30 @@ select {
   border-color: #6f42c1;
 }
 
+.btn-purple,
+.btn-lilac {
+  color: #fff;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.95rem;
+}
+
+.btn-lilac {
+  /* slightly darker lilac that still reads as secondary */
+  background-color: #b792f0;
+  border-color: #b792f0;
+}
+
 .btn-purple:hover,
 .btn-purple:focus {
   color: #fff;
   background-color: #5a34a0;
   border-color: #52328f;
+}
+
+.btn-lilac:hover,
+.btn-lilac:focus {
+  background-color: #9c6de0;
+  border-color: #8f58cf;
 }
 
 .artist-card-title {
