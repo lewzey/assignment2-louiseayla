@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, setCurrentPlaylistId }) {
+function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, setCurrentPlaylistId, onOpenLogin }) {
     const location = useLocation();
 
     const handleClick = () => {
@@ -66,7 +66,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
 
                     <Nav>
                         {!isLoggedIn ? (
-                            <Nav.Link as={Link} to="/login" onClick={handleClick}>Login</Nav.Link>
+                            <Nav.Link onClick={() => { handleClick(); if (typeof onOpenLogin === 'function') onOpenLogin(); }}>Login</Nav.Link>
                         ) : (
                             <Nav.Link as={Link} to="/" onClick={handleLogout}>Logout</Nav.Link>
                         )}

@@ -215,75 +215,73 @@ function SingleSong({ playlists, setPlaylists, currentPlaylistId }) {
     }
     else {
         return (
-            <main className="container py-4">
-                <div className="card shadow-lg p-4">
-                    <h1 className="text-center mb-4">{song.title}</h1>
+            <main className="single-song-page">
+                <div className="songs-header">
+                    <h1 className="songs-title">{song.title}</h1>
+                    <p className="songs-subtitle">{song.artist} — {song.year}</p>
+                </div>
 
-                    {/* Song Info */}
-                    <div className="row mb-4">
-                        <div className="col-md-6">
-                            <p>
-                                <strong>Artist:</strong>{" "}
-                                <Link to={`/artist/${song.artist_id}`}>
-                                    {song.artist}
-                                </Link>
-                            </p>
-                            <p>
-                                <strong>Genre:</strong>{" "}
-                                <Link to={`/genre/${song.genre_id}`}>
-                                    {song.genre}
-                                </Link>
-                            </p>
-                            <p><strong>Year:</strong> {song.year}</p>
+                {/* Top visual row: artist image (left) and radar chart (right), spanning width */}
+                <div className="my-4">
+                    <div className="d-flex flex-column flex-md-row align-items-stretch gap-4 mb-4">
+                        <div className="flex-fill d-flex justify-content-center align-items-center">
+                            <img
+                                src={song.artist_image_url || '/fallback-artist.jpg'}
+                                alt={song.artist}
+                                className="single-artist-image rounded"
+                                style={{ width: 420, height: 420 }}
+                            />
+                        </div>
 
-                            <button onClick={handleAddToPlaylist}>
+                        <div className="flex-fill d-flex justify-content-center align-items-center">
+                            <div style={{ width: '100%', maxWidth: 520 }}>
+                                <h5 className="text-center">Audio Profile</h5>
+                                <div style={{ height: 420 }}>
+                                    <RadarChart song={song} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Details (centered, large) */}
+                    <div className="song-details text-center my-4">
+                        <h1 className="detail-title mb-2">Genre: <Link to={`/genre/${song.genre_id}`}>{song.genre}</Link></h1>
+                        <h1 className="detail-title mb-3">BPM: {song.bpm} · Popularity: {song.popularity} · Loudness: {song.loudness}</h1>
+
+                        <div>
+                            <button className="btn btn-purple btn-lg" onClick={handleAddToPlaylist}>
                                 Add to playlist
                             </button>
 
                             {playlistMessage && (
-                                <p className="mt-2 mb-0">{playlistMessage}</p>
+                                <p className="mt-2 mb-0 text-muted">{playlistMessage}</p>
                             )}
                         </div>
-
-                        <div className="col-md-6">
-                            <p><strong>BPM:</strong> {song.bpm}</p>
-                            <p><strong>Popularity:</strong> {song.popularity}</p>
-                            <p><strong>Loudness:</strong> {song.loudness}</p>
-                        </div>
                     </div>
+                </div>
 
-                    {/* Chart */}
-                    <div className="row mb-4">
-                        <div className="col-md-12 text-center">
-                            <h5>Audio Profile</h5>
-                            <div style={{ height: "300px" }}>
-                                <RadarChart song={song} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Related Songs */}
+                <div className="related-songs p-4 rounded-4 mb-4">
+                    <h2 className="mb-3 text-center">Related Songs</h2>
                     <div className="row">
                         {relatedSongs.map((song) => (
-                            <div key={song.id} className="col-md-3 mb-3">
-                                <div className="card h-100 shadow-sm">
-                                    <img
-                                        src={song.artist_image_url}
-                                        className="card-img-top"
-                                        alt={song.artist}
-                                        style={{ height: "150px", objectFit: "cover" }}
-                                    />
-                                    <div className="card-body text-center">
-                                        <Link to={`/song/${song.id}`} className="text-decoration-none">
-                                            <h6 className="mb-1">{song.title}</h6>
-                                            <p className="text-muted small mb-0">{song.artist}</p>
-                                        </Link>
-                                    </div>
+                        <div key={song.id} className="col-md-3 mb-3">
+                            <div className="card h-100 shadow-sm">
+                                <img
+                                    src={song.artist_image_url}
+                                    className="card-img-top"
+                                    alt={song.artist}
+                                    style={{ height: "150px", objectFit: "cover" }}
+                                />
+                                <div className="card-body text-center">
+                                    <Link to={`/song/${song.id}`} className="text-decoration-none">
+                                        <h6 className="mb-1">{song.title}</h6>
+                                        <p className="text-muted small mb-0">{song.artist}</p>
+                                    </Link>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                    ))}
                     </div>
-
                 </div>
             </main>
         )

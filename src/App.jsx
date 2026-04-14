@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import Toast from 'react-bootstrap/Toast'
 import HeaderApp from './components/HeaderApp.jsx';
 import Footer from './components/Footer.jsx';
 import './App.css'
@@ -101,6 +102,9 @@ function App() {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showLoginToast, setShowLoginToast] = useState(false);
+  const [loginToastMessage, setLoginToastMessage] = useState('Logged in successfully');
 
   const loadingTimeoutRef = useRef(null);
 
@@ -153,6 +157,7 @@ function App() {
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
         setCurrentPlaylistId={setCurrentPlaylistId}
+        onOpenLogin={() => setShowLogin(true)}
       />
       {isLoading && (
         <div className="loading-overlay">
@@ -204,17 +209,26 @@ function App() {
             }
           />
           <Route path="/about" element={<AboutModal onClose={closeAbout} />} />
-          <Route
-            path="/login"
-            element={
-              <Login
-                setIsLoggedIn={setIsLoggedIn}
-                setIsLoading={hideLoading}
-              />
-            }
-          />
+          {/* Login is now a modal triggered from the header */}
         </Routes>
       </div>
+      <Login
+        show={showLogin}
+        onClose={() => setShowLogin(false)}
+        setIsLoggedIn={setIsLoggedIn}
+        setIsLoading={hideLoading}
+        onLoginSuccess={() => { setLoginToastMessage('Logged in successfully'); setShowLoginToast(true); }}
+      />
+      {showLoginToast && (
+        <div className="song-toast-container">
+          <Toast bg="success" onClose={() => setShowLoginToast(false)} show={showLoginToast} delay={2500} autohide>
+            <Toast.Header>
+              <strong className="me-auto">Login</strong>
+            </Toast.Header>
+            <Toast.Body className="text-white">{loginToastMessage}</Toast.Body>
+          </Toast>
+        </div>
+      )}
       {backgroundLocation && location.pathname === '/about' && <AboutModal onClose={closeAbout} />}
       <Footer />
     </main>
