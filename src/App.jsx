@@ -40,7 +40,7 @@ function AboutModal({ onClose }) {
             The website is designed to be user-friendly, with a clean interface and intuitive navigation.
           </p>
           <p>
-            The application was built using React and Vite for the frontend, with Bootstrap used for styling and responsive design.
+            The application was built using React and Vite for the frontend, with Bootstrap and custom CSS styles used for styling and responsive design.
             The backend is powered by Supabase, which utilizes a PostgreSQL database for data storage.
           </p>
           <div className="text-center">
