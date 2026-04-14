@@ -110,7 +110,7 @@ function SingleArtist() {
               rel="noreferrer"
               className="btn btn-sm btn-purple"
             >
-              Listen this artist on Spotify!
+              Listen to this artist on Spotify!
             </a>
           )}
         </div>
