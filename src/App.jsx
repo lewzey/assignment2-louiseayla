@@ -181,7 +181,16 @@ function App() {
               />
             }
           />
-          <Route path="/song/:id" element={<SingleSong />} />
+          <Route
+              path="/song/:id"
+              element={
+                  <SingleSong
+                      playlists={playlists}
+                      setPlaylists={setPlaylists}
+                      currentPlaylistId={currentPlaylistId}
+                  />
+              }
+          />
           <Route
             path="/playlists"
             element={

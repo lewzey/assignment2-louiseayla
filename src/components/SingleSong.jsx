@@ -6,27 +6,6 @@ import Spinner from 'react-bootstrap/Spinner'
 import supabase from '../lib/supabase';
 import RadarChart from './RadarChart.jsx';
 
-function getSongMoods(song) {
-    const results = [];
-
-    if (song.danceability >= 70) {
-        results.push('Dancing');
-    }
-
-    if (song.valence >= 70) {
-        results.push('Happy');
-    }
-
-    if (song.acousticness > 0 && (song.liveness / song.acousticness) >= 1) {
-        results.push('Coffee');
-    }
-
-    if ((song.energy * song.speechiness) <= 5) {
-        results.push('Studying');
-    }
-
-    return results;
-}
 function getTopThreeMetrics(song) {
     const metrics = [
         { name: 'energy', value: song.energy },
@@ -42,13 +21,43 @@ function getTopThreeMetrics(song) {
     return metrics.slice(0, 3);
 }
 
-function SingleSong() {
+function SingleSong({ playlists, setPlaylists, currentPlaylistId }) {
     const { id } = useParams();
     const [song, setSong] = useState(null);
     const [relatedSongs, setRelatedSongs] = useState([]);
-    const [moods, setMoods] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [playlistMessage, setPlaylistMessage] = useState('');
 
+    function handleAddToPlaylist() {
+        if (!currentPlaylistId) {
+            setPlaylistMessage('Please select a playlist first.');
+            return;
+        }
+
+        const updatedPlaylists = playlists.map((playlist) => {
+            if (playlist.id !== currentPlaylistId) {
+                return playlist;
+            }
+
+            const alreadyInPlaylist = playlist.songs.some(
+                (playlistSong) => playlistSong.id === song.id
+            );
+
+            if (alreadyInPlaylist) {
+                setPlaylistMessage('Song is already in this playlist.');
+                return playlist;
+            }
+
+            setPlaylistMessage('Song added to playlist.');
+
+            return {
+                ...playlist,
+                songs: [...playlist.songs, song]
+            };
+        });
+
+        setPlaylists(updatedPlaylists);
+    }
     useEffect(() => {
         async function getSong() {
 
@@ -109,7 +118,6 @@ function SingleSong() {
             };
 
             setSong(mappedSong);
-            setMoods(getSongMoods(mappedSong));
 
             // get all songs
             const { data: allSongsData, error: allSongsError } = await supabase
@@ -227,6 +235,14 @@ function SingleSong() {
                                 </Link>
                             </p>
                             <p><strong>Year:</strong> {song.year}</p>
+
+                            <button onClick={handleAddToPlaylist}>
+                                Add to playlist
+                            </button>
+
+                            {playlistMessage && (
+                                <p className="mt-2 mb-0">{playlistMessage}</p>
+                            )}
                         </div>
 
                         <div className="col-md-6">
@@ -236,24 +252,9 @@ function SingleSong() {
                         </div>
                     </div>
 
-                    {/* Moods + Chart */}
+                    {/* Chart */}
                     <div className="row mb-4">
-                        <div className="col-md-6">
-                            <h5>Moods</h5>
-                            {moods.length > 0 ? (
-                                <div className="d-flex flex-wrap gap-2">
-                                    {moods.map((mood) => (
-                                        <span key={mood} className="badge bg-secondary">
-                                            {mood}
-                                        </span>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p>No moods matched.</p>
-                            )}
-                        </div>
-
-                        <div className="col-md-6 text-center">
+                        <div className="col-md-12 text-center">
                             <h5>Audio Profile</h5>
                             <div style={{ height: "300px" }}>
                                 <RadarChart song={song} />
