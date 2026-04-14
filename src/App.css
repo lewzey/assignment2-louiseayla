@@ -974,3 +974,9 @@ select {
     transform: translateY(0);
   }
 }
+
+.radar-container {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}

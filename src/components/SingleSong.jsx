@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Spinner from 'react-bootstrap/Spinner'
 import supabase from '../lib/supabase';
+import RadarChart from './RadarChart.jsx';
 
 function getSongMoods(song) {
     const results = [];
@@ -26,7 +27,6 @@ function getSongMoods(song) {
 
     return results;
 }
-
 function getTopThreeMetrics(song) {
     const metrics = [
         { name: 'energy', value: song.energy },
@@ -47,6 +47,7 @@ function SingleSong() {
     const [song, setSong] = useState(null);
     const [relatedSongs, setRelatedSongs] = useState([]);
     const [moods, setMoods] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getSong() {
@@ -129,7 +130,8 @@ function SingleSong() {
                     popularity,
                     artists (
                         artist_id,
-                        artist_name
+                        artist_name,
+                        artist_image_url
                     ),
                     genres (
                         genre_id,
@@ -155,6 +157,7 @@ function SingleSong() {
                         artist: item.artists.artist_name,
                         genre: item.genres.genre_name,
                         artist_id: item.artists.artist_id,
+                        artist_image_url: item.artists.artist_image_url,
                         genre_id: item.genres.genre_id,
                         energy: item.energy,
                         danceability: item.danceability,
@@ -178,6 +181,7 @@ function SingleSong() {
                 .slice(0, 4);
 
             setRelatedSongs(related);
+            setLoading(false);
         }
 
         getSong();
@@ -194,49 +198,94 @@ function SingleSong() {
         )
     }
 
-    return (
-        <main>
-            <h1>{song.title}</h1>
-            <p>
-                Artist: 
-                <Link to={`/artist/${song.artist_id}`}>
-                    {song.artist}
-                </Link>
-            </p>
-            <p>Year: {song.year}</p>
-            <p>
-                Genre: 
-                <Link to={`/genre/${song.genre_id}`}>
-                    {song.genre}
-                </Link>
-            </p>
-            <p>BPM: {song.bpm}</p>
-            <p>Popularity: {song.popularity}</p>
-            <p>Loudness: {song.loudness}</p>
+    if (loading) {
+        return (
+            <div className="page-loader">
+                <Spinner animation="border" />
+            </div>
+        );
+    }
+    else {
+        return (
+            <main className="container py-4">
+                <div className="card shadow-lg p-4">
+                    <h1 className="text-center mb-4">{song.title}</h1>
 
-            <h2>Moods</h2>
-            {moods.length > 0 ? (
-                <ul>
-                    {moods.map((mood) => (
-                        <li key={mood}>{mood}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No moods matched.</p>
-            )}
+                    {/* Song Info */}
+                    <div className="row mb-4">
+                        <div className="col-md-6">
+                            <p>
+                                <strong>Artist:</strong>{" "}
+                                <Link to={`/artist/${song.artist_id}`}>
+                                    {song.artist}
+                                </Link>
+                            </p>
+                            <p>
+                                <strong>Genre:</strong>{" "}
+                                <Link to={`/genre/${song.genre_id}`}>
+                                    {song.genre}
+                                </Link>
+                            </p>
+                            <p><strong>Year:</strong> {song.year}</p>
+                        </div>
 
-            <h2>Related Songs</h2>
-            <ul>
-                {relatedSongs.map((item) => (
-                    <li key={item.id}>
-                        <Link to={`/song/${item.id}`}>
-                            {item.title} - {item.artist}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </main>
-    );
+                        <div className="col-md-6">
+                            <p><strong>BPM:</strong> {song.bpm}</p>
+                            <p><strong>Popularity:</strong> {song.popularity}</p>
+                            <p><strong>Loudness:</strong> {song.loudness}</p>
+                        </div>
+                    </div>
+
+                    {/* Moods + Chart */}
+                    <div className="row mb-4">
+                        <div className="col-md-6">
+                            <h5>Moods</h5>
+                            {moods.length > 0 ? (
+                                <div className="d-flex flex-wrap gap-2">
+                                    {moods.map((mood) => (
+                                        <span key={mood} className="badge bg-secondary">
+                                            {mood}
+                                        </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No moods matched.</p>
+                            )}
+                        </div>
+
+                        <div className="col-md-6 text-center">
+                            <h5>Audio Profile</h5>
+                            <div style={{ height: "300px" }}>
+                                <RadarChart song={song} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Related Songs */}
+                    <div className="row">
+                        {relatedSongs.map((song) => (
+                            <div key={song.id} className="col-md-3 mb-3">
+                                <div className="card h-100 shadow-sm">
+                                    <img
+                                        src={song.artist_image_url}
+                                        className="card-img-top"
+                                        alt={song.artist}
+                                        style={{ height: "150px", objectFit: "cover" }}
+                                    />
+                                    <div className="card-body text-center">
+                                        <Link to={`/song/${song.id}`} className="text-decoration-none">
+                                            <h6 className="mb-1">{song.title}</h6>
+                                            <p className="text-muted small mb-0">{song.artist}</p>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
+            </main>
+        )
+    }
 }
-
 export default SingleSong;

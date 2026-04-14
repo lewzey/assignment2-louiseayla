@@ -45,7 +45,7 @@ function Artists(props) {
         artistsDisplay = artists.map((artist) => (
             <div key={artist.artist_id} className="card artist-card-item h-100">
                 <img
-                    src={artist.artist_image_url || '/fallback-artist.jpg'}
+                    src={artist.artist_image_url}
                     alt={artist.artist_name}
                     className="card-img-top artist-card-image"
                 />
