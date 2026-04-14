@@ -147,6 +147,7 @@ function Songs({ playlists, setPlaylists, currentPlaylistId, setCurrentPlaylistI
         }
     }, [isLoggedIn, setCurrentPlaylistId]);
 
+    // current playlist selection
     useEffect(() => {
         if (currentPlaylistId) {
             setSelectedPlaylist(String(currentPlaylistId));

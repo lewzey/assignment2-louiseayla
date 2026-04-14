@@ -82,6 +82,7 @@ function AboutModal({ onClose }) {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const backgroundLocation = location.state?.backgroundLocation;
 
   const [playlists, setPlaylists] = useState(() => {
@@ -103,17 +104,20 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginToast, setShowLoginToast] = useState(false);
   const [loginToastMessage, setLoginToastMessage] = useState('Logged in successfully');
 
+  // loading thing
   const loadingTimeoutRef = useRef(null);
 
   useEffect(() => {
     localStorage.setItem('playlists', JSON.stringify(playlists));
   }, [playlists]);
 
+  // save login status
   useEffect(() => {
     localStorage.setItem('isLoggedIn', isLoggedIn);
   }, [isLoggedIn]);
