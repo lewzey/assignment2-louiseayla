@@ -1,16 +1,58 @@
-# React + Vite
+# Loula – Music Playlist Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Loula is a web-based music playlist builder that allows users to browse songs, filter them by different attributes, and create custom playlists.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse a collection of songs  
+- Filter songs by:
+  - Artist  
+  - Genre  
+  - Year  
+- Add songs to custom playlists  
+- Manage multiple playlists  
+- Responsive UI using Bootstrap  
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Frontend: React + Vite  
+- Styling: Bootstrap + CSS  
+- Backend / Database: Supabase (PostgreSQL)  
 
-## Expanding the ESLint configuration
+## Deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project is deployed using GitHub Pages.
+
+To deploy:
+
+```bash
+npm run deploy
+```
+
+Live site:  
+https://lewzey.github.io/assignment2-louiseayla/
+
+## Project Structure
+
+```
+assignment2-louiseayla/
+│── src/
+│   ├── components/
+│   ├── pages/
+│   ├── scripts/
+│   └── App.jsx
+│
+│── public/
+│── index.html
+│── package.json
+│── vite.config.js
+```
+
+## Authors
+
+- Ayla  
+- Louise  
+
+## License
+
+This project is for educational purposes.
