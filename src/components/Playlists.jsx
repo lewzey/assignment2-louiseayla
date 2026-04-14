@@ -137,7 +137,7 @@ function Playlists(props) {
                                     setCurrentPlaylistId(newPlaylist.id);
                                     setNewName("");
                                 }
-                            }}>Add playlist</button>
+                            }}>Add</button>
                         </div>
                     </div>
                 </div>

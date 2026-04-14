@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+//not proper functioning, placeholder for proper authentication
 function Login({ show = false, onClose = () => {}, setIsLoggedIn, setIsLoading, onLoginSuccess = () => {} }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -58,6 +59,7 @@ function Login({ show = false, onClose = () => {}, setIsLoggedIn, setIsLoading, 
 
                     {error && <p className="text-danger">{error}</p>}
 
+                    {/* Temporary Solution to login, will only work if this login is inputed */}
                     <p className="mt-2 small">Demo login credentials:</p>
                     <p className="small">email@email.com / password.123</p>
                 </Modal.Body>

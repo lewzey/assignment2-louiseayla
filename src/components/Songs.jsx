@@ -282,6 +282,7 @@ function Songs({ playlists, setPlaylists, currentPlaylistId, setCurrentPlaylistI
 
             <section className="songs-layout mb-4 d-flex flex-column flex-lg-row gap-4">
                 <aside className="songs-sidebar flex-shrink-0">
+                    {/* Decided to allow to select a playlist in Songs page as well, data is able to be transfered throughout different pages */}
                     {!isLoggedIn && (
                         <p>Log in to create a playlist!</p>
                     )}
@@ -453,7 +454,7 @@ function Songs({ playlists, setPlaylists, currentPlaylistId, setCurrentPlaylistI
                     </section>
                 </div>
             </section>
-
+            {/* Shows if user adds a song to a playlist or already has the song in the selected playlist */}
             {showToast && (
                 <div className="song-toast-container">
                     <Toast bg={toastVariant} onClose={() => setShowToast(false)} show={showToast} delay={2500} autohide>

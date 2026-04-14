@@ -72,7 +72,6 @@ function Artists(props) {
                     alt="Dua Lipa Concert"
                     className="artist-image"
                 />
-
                 <h1 className="genre-overlay-text">
                     Artists
                 </h1>

@@ -23,6 +23,7 @@ import Login from './components/Login.jsx';
 import louiseImg from './assets/louise.jpg';
 import aylaImg from './assets/ayla.png';
 
+// about section
 function AboutModal({ onClose }) {
   return (
     <Modal show onHide={onClose} centered size='lg'>
@@ -43,6 +44,7 @@ function AboutModal({ onClose }) {
             The backend is powered by Supabase, which utilizes a PostgreSQL database for data storage.
           </p>
           <div className="text-center">
+            <i className="bi bi-github me-1"></i>
             <a href="https://github.com/lewzey/assignment2-louiseayla" target="_blank">
               View the project on GitHub!
             </a>
@@ -52,7 +54,7 @@ function AboutModal({ onClose }) {
         <div className="about-modal-section mt-3">
           <h5 className='text-center'>About Ayla</h5>
           <div className="about-modal-section mt-3 d-flex align-items-center gap-3">
-            <img src={aylaImg} alt="Louise" className="about-image" />
+            <img src={aylaImg} alt="Ayla" className="about-image" />
             <p> Ayla is currently in her fourth year of Computer Science at Mount Royal University. Through this project, 
               she has enjoyed building her web development skills and team collaboration.
             </p>
@@ -151,6 +153,7 @@ function App() {
 
   return (
     <main>
+      {/** Header  */}
       <HeaderApp
         setIsLoading={showLoading}
         currentPlaylist={currentPlaylist}
@@ -159,6 +162,7 @@ function App() {
         setCurrentPlaylistId={setCurrentPlaylistId}
         onOpenLogin={() => setShowLogin(true)}
       />
+       {/** Spinner for when loading */}
       {isLoading && (
         <div className="loading-overlay">
           <Spinner animation="border" role="status" variant="primary">
@@ -166,6 +170,7 @@ function App() {
           </Spinner>
         </div>
       )}
+      {/* Routes */}
       <div>
         <Routes location={backgroundLocation || location}>
           <Route path="/" element={<Home setIsLoading={hideLoading} playlists={playlists} setPlaylists={setPlaylists} currentPlaylistId={currentPlaylistId} setCurrentPlaylistId={setCurrentPlaylistId} isLoggedIn={isLoggedIn} />} />
@@ -209,7 +214,7 @@ function App() {
             }
           />
           <Route path="/about" element={<AboutModal onClose={closeAbout} />} />
-          {/* Login is now a modal triggered from the header */}
+          {/* Login is a modal triggered from the header */}
         </Routes>
       </div>
       <Login
@@ -219,6 +224,7 @@ function App() {
         setIsLoading={hideLoading}
         onLoginSuccess={() => { setLoginToastMessage('Logged in successfully'); setShowLoginToast(true); }}
       />
+      {/* Login toast */}
       {showLoginToast && (
         <div className="song-toast-container">
           <Toast bg="success" onClose={() => setShowLoginToast(false)} show={showLoginToast} delay={2500} autohide>

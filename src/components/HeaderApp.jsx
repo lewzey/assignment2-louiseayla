@@ -32,7 +32,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                         <Nav.Link as={Link} to="/artists" onClick={handleClick}>Artists</Nav.Link>
                         <Nav.Link as={Link} to="/genres" onClick={handleClick}>Genres</Nav.Link>
                         <Nav.Link as={Link} to="/songs" onClick={handleClick}>Songs</Nav.Link>
-
+                        {/* Only shows playlist option when user is logged in, because you cannot make playlists without an account!! */}
                         {isLoggedIn && (
                             <Nav.Link as={Link} to="/playlists" onClick={handleClick}>Playlists</Nav.Link>
                         )}
@@ -52,7 +52,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                                 to="/playlists"
                                 className={`playlist-text ${currentPlaylist ? "show" : "hide"}`}
                                 onClick={handleClick}
-                            >
+                            >   {/* If there is a playlist chosen then show but if not, hide */}
                                 {currentPlaylist && (
                                     <>
                                         <i className="bi bi-music-player me-2"></i>
@@ -65,8 +65,8 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                             </Nav.Link>
                         </Nav.Item>
                     </Nav>
-
-                    <Nav>
+                                
+                    <Nav> {/* Switches from log in and log out */}
                         {!isLoggedIn ? (
                             <Nav.Link onClick={() => { handleClick(); if (typeof onOpenLogin === 'function') onOpenLogin(); }}>Login</Nav.Link>
                         ) : (

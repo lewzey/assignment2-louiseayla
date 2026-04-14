@@ -103,7 +103,7 @@ const Home = (props) => {
 
     return (
         <>
-            {/* Full-width carousel at top (restored styling) */}
+            {/*  Found template through https://react-bootstrap.netlify.app/docs/components/carousel */}
             <section className="my-0">
                 <Carousel>
                     <Carousel.Item interval={1000} className="carousel-hero">
@@ -114,6 +114,7 @@ const Home = (props) => {
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item interval={1000}>
+                        {/* Added Zara Larson's Midnight Sun to the database for this carousel item haha */}
                         <img src={zara} alt="Second slide" className="artist-image-zara mb-4 mb-4 border border-dark rounded" />
                         <Carousel.Caption>
                             <h3>Check out this new rising artist!</h3>
@@ -141,6 +142,7 @@ const Home = (props) => {
             </section>
 
             <Container>
+                {/* Found template through https://react-bootstrap.netlify.app/docs/components/toasts */}
                 {showToast && (
                     <div className="song-toast-container">
                         <Toast bg={toastVariant === 'success' ? 'success' : 'danger'} onClose={() => setShowToast(false)} show={showToast} delay={2500} autohide>
@@ -151,9 +153,9 @@ const Home = (props) => {
                         </Toast>
                     </div>
                 )}
-                {/* Hero CTA */}
+                
                 <section className="songs-header mt-4">
-                <h1 className="songs-title">Build playlists you love</h1>
+                <h1 className="songs-title">Build playlists you love  <i class="bi bi-heart"></i> </h1> 
                 <p className="songs-subtitle">Browse songs, add favourites, and curate mood-based playlists in seconds!</p>
                 <div className="text-center mt-3">
                     <Button as={Link} to="/songs" className="btn-lilac btn-lg me-3">Browse Songs</Button>
@@ -161,7 +163,7 @@ const Home = (props) => {
                 </div>
             </section>
 
-            {/* Quick search */}
+            {/* Quick search for user*/}
             <section className="my-5">
                 <h2 className="mb-3">Quick Search</h2>
                 <Form>
