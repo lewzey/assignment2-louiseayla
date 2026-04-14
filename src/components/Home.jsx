@@ -156,8 +156,8 @@ const Home = (props) => {
                 <h1 className="songs-title">Build playlists you love</h1>
                 <p className="songs-subtitle">Browse songs, add favourites, and curate mood-based playlists in seconds!</p>
                 <div className="text-center mt-3">
-                    <Button as={Link} to="/songs" className="btn-purple btn-lg me-3">Browse Songs</Button>
-                    <Button as={Link} to="/playlists" className="btn-lilac btn-lg">Create Playlist</Button>
+                    <Button as={Link} to="/songs" className="btn-lilac btn-lg me-3">Browse Songs</Button>
+                    <Button as={Link} to="/playlists" className="btn-purple btn-lg">Create Playlist</Button>
                 </div>
             </section>
 
@@ -175,8 +175,8 @@ const Home = (props) => {
                                 <Card.Body className="text-center">
                                     <Card.Title className="mb-1">{s.title}</Card.Title>
                                     <Card.Subtitle className="text-muted mb-2">{s.artist}</Card.Subtitle>
-                                    <div className="d-flex justify-content-center gap-2">
-                                        <Button as={Link} to={`/song/${s.id}`} variant="purple" size="sm" className='btn-lilac'>View</Button>
+                                    <div className="d-flex justify-content-center gap-2" >
+                                        <Button as={Link} to={`/song/${s.id}`} variant="purple" size="xs" className='btn-lilac'>View</Button>
                                         <Button onClick={() => handleAddToPlaylist(s)} variant="purple" size="sm" className="btn-purple">Add</Button>
                                     </div>
                                 </Card.Body>

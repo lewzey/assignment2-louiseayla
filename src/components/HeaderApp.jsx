@@ -23,6 +23,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
             <Navbar expand="lg" className="custom-navbar">
                 <Container>
                     <Navbar.Brand as={Link} to="/" className="brand" onClick={handleClick}>
+                    <i className="bi bi-music-note-beamed me-2"></i>
                         Loula
                     </Navbar.Brand>
 
@@ -54,6 +55,7 @@ function HeaderApp({ setIsLoading, currentPlaylist, isLoggedIn, setIsLoggedIn, s
                             >
                                 {currentPlaylist && (
                                     <>
+                                        <i className="bi bi-music-player me-2"></i>
                                         {currentPlaylist.name}
                                         <span className="playlist-count">
                                             {currentPlaylist.songs?.length || 0}

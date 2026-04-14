@@ -244,10 +244,31 @@ function SingleSong({ playlists, setPlaylists, currentPlaylistId }) {
                     </div>
 
                     {/* Details (centered, large) */}
-                    <div className="song-details text-center my-4">
-                        <h1 className="detail-title mb-2">Genre: <Link to={`/genre/${song.genre_id}`}>{song.genre}</Link></h1>
-                        <h1 className="detail-title mb-3">BPM: {song.bpm} · Popularity: {song.popularity} · Loudness: {song.loudness}</h1>
+                    <div className="song-table-wrapper my-4">
+                        <div className="container">
 
+                            {/* HEADER ROW */}
+                            <div className="row song-table-header text-center">
+                                <div className="col-3">Genre</div>
+                                <div className="col-3">BPM</div>
+                                <div className="col-3">Popularity</div>
+                                <div className="col-3">Loudness</div>
+                            </div>
+
+                            {/* VALUE ROW */}
+                            <div className="row song-table-values text-center">
+                                <div className="col-3 genre-text">
+                                    <Link to={`/genre/${song.genre_id}`}>
+                                        {song.genre}
+                                    </Link>
+                                </div>
+
+                                <div className="col-3">{song.bpm}</div>
+                                <div className="col-3">{song.popularity}</div>
+                                <div className="col-3">{song.loudness}</div>
+                            </div>
+
+                        </div>
                         <div>
                             <button className="btn btn-purple btn-lg" onClick={handleAddToPlaylist}>
                                 Add to playlist
@@ -264,23 +285,23 @@ function SingleSong({ playlists, setPlaylists, currentPlaylistId }) {
                     <h2 className="mb-3 text-center">Related Songs</h2>
                     <div className="row">
                         {relatedSongs.map((song) => (
-                        <div key={song.id} className="col-md-3 mb-3">
-                            <div className="card h-100 shadow-sm">
-                                <img
-                                    src={song.artist_image_url}
-                                    className="card-img-top"
-                                    alt={song.artist}
-                                    style={{ height: "150px", objectFit: "cover" }}
-                                />
-                                <div className="card-body text-center">
-                                    <Link to={`/song/${song.id}`} className="text-decoration-none">
-                                        <h6 className="mb-1">{song.title}</h6>
-                                        <p className="text-muted small mb-0">{song.artist}</p>
-                                    </Link>
+                            <div key={song.id} className="col-md-3 mb-3">
+                                <div className="card h-100 shadow-sm">
+                                    <img
+                                        src={song.artist_image_url}
+                                        className="card-img-top"
+                                        alt={song.artist}
+                                        style={{ height: "150px", objectFit: "cover" }}
+                                    />
+                                    <div className="card-body text-center">
+                                        <Link to={`/song/${song.id}`} className="text-decoration-none">
+                                            <h6 className="mb-1">{song.title}</h6>
+                                            <p className="text-muted small mb-0">{song.artist}</p>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                     </div>
                 </div>
             </main>

@@ -795,12 +795,14 @@ select {
   color: #fff;
   padding: 0.45rem 0.85rem;
   font-size: 0.95rem;
+  height: 45px;
 }
 
 .btn-lilac {
   /* slightly darker lilac that still reads as secondary */
   background-color: #b792f0;
   border-color: #b792f0;
+  
 }
 
 .btn-purple:hover,
@@ -1070,4 +1072,38 @@ select {
     align-items: center;
     text-align: center;
   }
+}
+
+.songs-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.song-table-header {
+  background-color: #8e44ad; /* lilac */
+  color: white;
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.song-table-values {
+  background-color: white;
+  padding: 10px 0;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid #eee;
+}
+
+.song-table-wrapper .row {
+  margin: 0;
+}
+
+.song-table-values a {
+  color: #5f2c82;
+  text-decoration: none;
+}
+
+.song-table-values a:hover {
+  text-decoration: underline;
 }
