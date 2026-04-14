@@ -10,8 +10,8 @@ import App from './App.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
      // <h1> TEST </h1>
      <React.StrictMode>
-          <BrowserRouter>
+          <HashRouter>
                <App />
-          </BrowserRouter>
+          </HashRouter>
      </React.StrictMode>
 )
